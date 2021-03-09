@@ -1,5 +1,6 @@
 package com.jerryweather.android.ui.place
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jerryweather.android.R
+import com.jerryweather.android.ui.weather.WeatherActivity
 
 /**
  *作者：张晋瑞
@@ -23,7 +25,7 @@ import com.jerryweather.android.R
 class PlaceFragment : Fragment() {
     private lateinit var bgImageView: ImageView
     private lateinit var adapter: PlaceAdapter
-    private val viewModel by lazy { ViewModelProviders.of(this).get(PlaceModel::class.java) }
+    val viewModel by lazy { ViewModelProviders.of(this).get(PlaceModel::class.java) }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -35,10 +37,21 @@ class PlaceFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         bgImageView = activity!!.findViewById(R.id.bgImageView)
+        if (viewModel.isPlaceSaved()){
+            val place=viewModel.getSavedPlace()
+            val intent= Intent(context, WeatherActivity::class.java).apply {
+                putExtra("location_lng",place.location.lng)
+                putExtra("location_lat",place.location.lat)
+                putExtra("place_name",place.name)
+            }
+            startActivity(intent)
+            activity?.finish()
+            return
+        }
         val recyclerView: RecyclerView? = activity?.findViewById(R.id.recyclerView)
         val layoutManager = LinearLayoutManager(activity)
         recyclerView?.layoutManager = layoutManager
-        adapter = PlaceAdapter(viewModel.placeList)
+        adapter = PlaceAdapter(this,viewModel.placeList)
         recyclerView?.adapter = adapter
         val searchPlaceEdit: EditText? = activity?.findViewById(R.id.searchPlaceEdit)
         searchPlaceEdit?.addTextChangedListener { editable ->

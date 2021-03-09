@@ -21,4 +21,8 @@ class PlaceModel : ViewModel() {
         Repository.searchPlaces(query)//这是真正的从库里获取数据
     }
     val placeList=ArrayList<Place>()//用于缓存数据，横竖屏的时候数据不变
+
+    fun savePlace(place: Place)=Repository.savePlace(place)
+    fun getSavedPlace()=Repository.getSavedPlace()
+    fun isPlaceSaved()=Repository.isPlaceSaved()
 }
