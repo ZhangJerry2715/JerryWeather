@@ -62,10 +62,10 @@ class WeatherActivity : AppCompatActivity() {
             refreshWeather()
         }
         //切换城市
-        binding.now.navBtn.setOnClickListener{
+        binding.now.navBtn.setOnClickListener {
             binding.drawerLayout.openDrawer(GravityCompat.START)
         }
-        binding.drawerLayout.addDrawerListener(object :DrawerLayout.DrawerListener{
+        binding.drawerLayout.addDrawerListener(object : DrawerLayout.DrawerListener {
             override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
             }
 
@@ -74,8 +74,11 @@ class WeatherActivity : AppCompatActivity() {
 
             override fun onDrawerClosed(drawerView: View) {
                 //侧边栏隐藏的时候要吧输入法也隐藏
-                val manager=getSystemService(Context.INPUT_METHOD_SERVICE)as InputMethodManager
-                manager.hideSoftInputFromWindow(drawerView.windowToken,InputMethodManager.HIDE_NOT_ALWAYS)
+                val manager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                manager.hideSoftInputFromWindow(
+                    drawerView.windowToken,
+                    InputMethodManager.HIDE_NOT_ALWAYS
+                )
 
             }
 

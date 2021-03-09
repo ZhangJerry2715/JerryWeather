@@ -25,18 +25,18 @@ class PlaceAdapter(private val fragment: PlaceFragment, private val placeList: L
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlaceViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.place_item, parent, false)
-        val holder= PlaceViewHolder(view)
-        holder.itemView.setOnClickListener{
-            val position=holder.adapterPosition
-            val place=placeList[position]
-            val activity=fragment.activity
-            if (activity is WeatherActivity){
+        val holder = PlaceViewHolder(view)
+        holder.itemView.setOnClickListener {
+            val position = holder.adapterPosition
+            val place = placeList[position]
+            val activity = fragment.activity
+            if (activity is WeatherActivity) {
                 activity.binding.drawerLayout.closeDrawers()
-                activity.viewModel.locationLng=place.location.lng
-                activity.viewModel.locationLat=place.location.lat
-                activity.viewModel.placeName=place.name
+                activity.viewModel.locationLng = place.location.lng
+                activity.viewModel.locationLat = place.location.lat
+                activity.viewModel.placeName = place.name
                 activity.refreshWeather()
-            }else {
+            } else {
                 val intent = Intent(parent.context, WeatherActivity::class.java).apply {
                     putExtra("location_lng", place.location.lng)
                     putExtra("location_lat", place.location.lat)
